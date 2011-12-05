@@ -1,0 +1,26 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<servlet>
+		<servlet-name>SchedulerServlet</servlet-name>
+		<servlet-class>br.com.bexsbanco.servlets.SchedulerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SimuladorServlet</servlet-name>
+		<servlet-class>br.com.bexsbanco.servlets.SimuladorServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SchedulerServlet</servlet-name>
+		<url-pattern>/Scheduler</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SimuladorServlet</servlet-name>
+		<url-pattern>/Simulador</url-pattern>
+	</servlet-mapping>
+
+
+	<display-name>Archetype Created Web Application</display-name>
+</web-app>

@@ -1,0 +1,181 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x04c310b2, pid=3564, tid=5984
+#
+# JRE version: 6.0_29-b11
+# Java VM: Java HotSpot(TM) Client VM (20.4-b02 mixed mode, sharing windows-x86 )
+# Problematic frame:
+# C  [BBMFSecurity.dll+0x10b2]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x024e9800):  JavaThread "main" [_thread_in_native, id=5984, stack(0x01b60000,0x01bb0000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x0000011d
+
+Registers:
+EAX=0x00000000, EBX=0x0000011d, ECX=0xffffffff, EDX=0x003ea558
+ESP=0x01baf774, EBP=0x003ea4f0, ESI=0x000000b9, EDI=0x0000011d
+EIP=0x04c310b2, EFLAGS=0x00010212
+
+Top of Stack: (sp=0x01baf774)
+0x01baf774:   01baf900 00000000 01baf818 04c31000
+0x01baf784:   01baf934 7c34240d 7c37a3a8 ffffffff
+0x01baf794:   7c34218f 6d883394 0239a598 01baf7c8
+0x01baf7a4:   6d321aaa 024e9928 01baf818 0239a598
+0x01baf7b4:   024e9800 38f10c50 384e81c8 024e9928
+0x01baf7c4:   00000004 01baf888 01baf7fc 1000c634
+0x01baf7d4:   01baf814 01baf910 00000004 6d7f2af6
+0x01baf7e4:   024e9800 01baf8ac 00000000 04c31000 
+
+Instructions: (pc=0x04c310b2)
+0x04c31092:   85 c9 7f 12 5f 5e 5d b8 fb ff ff ff 5b 81 c4 84
+0x04c310a2:   00 00 00 c2 0c 00 8b fb 83 c9 ff 33 c0 83 c6 5a
+0x04c310b2:   f2 ae f7 d1 49 3b ce 7d 12 5f 5e 5d b8 fe ff ff
+0x04c310c2:   ff 5b 81 c4 84 00 00 00 c2 0c 00 8d 4c 24 14 51 
+
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX=0x0000011d is an unknown value
+ECX=0xffffffff is an unknown value
+EDX=0x003ea558 is an unknown value
+ESP=0x01baf774 is pointing into the stack for thread: 0x024e9800
+EBP=0x003ea4f0 is an unknown value
+ESI=0x000000b9 is an unknown value
+EDI=0x0000011d is an unknown value
+
+
+Stack: [0x01b60000,0x01bb0000],  sp=0x01baf774,  free space=317k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [BBMFSecurity.dll+0x10b2]  BBMFSignEx+0xb2
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.sun.jna.Function.invokeInt(I[Ljava/lang/Object;)I+0
+j  com.sun.jna.Function.invoke([Ljava/lang/Object;Ljava/lang/Class;Z)Ljava/lang/Object;+315
+j  com.sun.jna.Function.invoke(Ljava/lang/Class;[Ljava/lang/Object;Ljava/util/Map;)Ljava/lang/Object;+214
+j  com.sun.jna.Library$Handler.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;+341
+j  $Proxy0.BBMFSignEx(Ljava/lang/String;Ljava/lang/String;Lcom/sun/jna/ptr/PointerByReference;)Ljava/lang/Integer;+24
+j  br.com.bexsbanco.util.DllUtils.main([Ljava/lang/String;)V+57
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0238f800 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=5288, stack(0x04940000,0x04990000)]
+  0x0237a800 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=5948, stack(0x048b0000,0x04900000)]
+  0x02379400 JavaThread "Attach Listener" daemon [_thread_blocked, id=6092, stack(0x04820000,0x04870000)]
+  0x02376400 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=804, stack(0x04790000,0x047e0000)]
+  0x02371400 JavaThread "Finalizer" daemon [_thread_blocked, id=4004, stack(0x04700000,0x04750000)]
+  0x0236c000 JavaThread "Reference Handler" daemon [_thread_blocked, id=1120, stack(0x04670000,0x046c0000)]
+=>0x024e9800 JavaThread "main" [_thread_in_native, id=5984, stack(0x01b60000,0x01bb0000)]
+
+Other Threads:
+  0x02330800 VMThread [stack: 0x045e0000,0x04630000] [id=3228]
+  0x023a3400 WatcherThread [stack: 0x049d0000,0x04a20000] [id=6056]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 4928K, used 1931K [0x244a0000, 0x249f0000, 0x299f0000)
+  eden space 4416K,  43% used [0x244a0000, 0x24682e40, 0x248f0000)
+  from space 512K,   0% used [0x248f0000, 0x248f0000, 0x24970000)
+  to   space 512K,   0% used [0x24970000, 0x24970000, 0x249f0000)
+ tenured generation   total 10944K, used 0K [0x299f0000, 0x2a4a0000, 0x344a0000)
+   the space 10944K,   0% used [0x299f0000, 0x299f0000, 0x299f0200, 0x2a4a0000)
+ compacting perm gen  total 12288K, used 414K [0x344a0000, 0x350a0000, 0x384a0000)
+   the space 12288K,   3% used [0x344a0000, 0x34507a80, 0x34507c00, 0x350a0000)
+    ro space 10240K,  51% used [0x384a0000, 0x389cd0b8, 0x389cd200, 0x38ea0000)
+    rw space 12288K,  54% used [0x38ea0000, 0x39539570, 0x39539600, 0x39aa0000)
+
+Code Cache  [0x024f0000, 0x02578000, 0x044f0000)
+ total_blobs=178 nmethods=44 adapters=71 free_code_cache=33000320 largest_free_block=0
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	C:\Program Files (x86)\Java\jre6\bin\javaw.exe
+0x778b0000 - 0x77a30000 	C:\Windows\SysWOW64\ntdll.dll
+0x76d00000 - 0x76e00000 	C:\Windows\syswow64\kernel32.dll
+0x758e0000 - 0x75926000 	C:\Windows\syswow64\KERNELBASE.dll
+0x64d00000 - 0x64d31000 	C:\Program Files\Alwil Software\Avast5\snxhk.dll
+0x754d0000 - 0x75570000 	C:\Windows\syswow64\ADVAPI32.dll
+0x77400000 - 0x774ac000 	C:\Windows\syswow64\msvcrt.dll
+0x77350000 - 0x77369000 	C:\Windows\SysWOW64\sechost.dll
+0x77040000 - 0x77130000 	C:\Windows\syswow64\RPCRT4.dll
+0x75420000 - 0x75480000 	C:\Windows\syswow64\SspiCli.dll
+0x75410000 - 0x7541c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x768d0000 - 0x769d0000 	C:\Windows\syswow64\USER32.dll
+0x75930000 - 0x759c0000 	C:\Windows\syswow64\GDI32.dll
+0x771e0000 - 0x771ea000 	C:\Windows\syswow64\LPK.dll
+0x76e00000 - 0x76e9d000 	C:\Windows\syswow64\USP10.dll
+0x771f0000 - 0x77250000 	C:\Windows\system32\IMM32.DLL
+0x76bd0000 - 0x76c9c000 	C:\Windows\syswow64\MSCTF.dll
+0x7c340000 - 0x7c396000 	C:\Program Files (x86)\Java\jre6\bin\msvcr71.dll
+0x6d7f0000 - 0x6da9f000 	C:\Program Files (x86)\Java\jre6\bin\client\jvm.dll
+0x72f20000 - 0x72f52000 	C:\Windows\system32\WINMM.dll
+0x751d0000 - 0x7521b000 	C:\Windows\system32\apphelp.dll
+0x6d7a0000 - 0x6d7ac000 	C:\Program Files (x86)\Java\jre6\bin\verify.dll
+0x6d320000 - 0x6d33f000 	C:\Program Files (x86)\Java\jre6\bin\java.dll
+0x6d7e0000 - 0x6d7ef000 	C:\Program Files (x86)\Java\jre6\bin\zip.dll
+0x735e0000 - 0x735f6000 	C:\Windows\system32\CRYPTSP.dll
+0x735a0000 - 0x735db000 	C:\Windows\system32\rsaenh.dll
+0x73070000 - 0x73087000 	C:\Windows\system32\USERENV.dll
+0x73240000 - 0x7324b000 	C:\Windows\system32\profapi.dll
+0x6d600000 - 0x6d613000 	C:\Program Files (x86)\Java\jre6\bin\net.dll
+0x75870000 - 0x758a5000 	C:\Windows\syswow64\WS2_32.dll
+0x768c0000 - 0x768c6000 	C:\Windows\syswow64\NSI.dll
+0x73560000 - 0x7359c000 	C:\Windows\system32\mswsock.dll
+0x71a30000 - 0x71a36000 	C:\Windows\System32\wship6.dll
+0x73540000 - 0x73550000 	C:\Windows\system32\NLAapi.dll
+0x734f0000 - 0x73534000 	C:\Windows\system32\DNSAPI.dll
+0x734e0000 - 0x734e8000 	C:\Windows\System32\winrnr.dll
+0x734d0000 - 0x734e0000 	C:\Windows\system32\napinsp.dll
+0x73470000 - 0x73482000 	C:\Windows\system32\pnrpnsp.dll
+0x73440000 - 0x73467000 	C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live\WLIDNSP.DLL
+0x75570000 - 0x75575000 	C:\Windows\syswow64\PSAPI.DLL
+0x772e0000 - 0x77337000 	C:\Windows\syswow64\SHLWAPI.dll
+0x73550000 - 0x73555000 	C:\Windows\System32\wshtcpip.dll
+0x73420000 - 0x7343c000 	C:\Windows\system32\IPHLPAPI.DLL
+0x73410000 - 0x73417000 	C:\Windows\system32\WINNSI.DLL
+0x73400000 - 0x73406000 	C:\Windows\system32\rasadhlp.dll
+0x73490000 - 0x734c8000 	C:\Windows\System32\fwpuclnt.dll
+0x10000000 - 0x10054000 	C:\Users\cleiton\AppData\Local\Temp\jna1721586324063379483.dll
+0x04c30000 - 0x04c3b000 	C:\Windows\BBMFSecurity.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 
+java_command: br.com.bexsbanco.util.DllUtils
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files (x86)\Java\jdk1.6.0_20
+CLASSPATH=.;C:\Program Files (x86)\Java\jre6\lib\ext\QTJava.zip
+PATH=C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Git\cmd;c:\Program Files (x86)\maven\bin;C:\Program Files (x86)\OpenSSH\bin;C:\Program Files (x86)\Java\jdk1.6.0_20\bin;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\QuickTime\QTSystem\;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\
+USERNAME=cleiton
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 15 Model 104 Stepping 2, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7600 
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 15 model 104 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, mmxext, 3dnow, 3dnowext
+
+Memory: 4k page, physical 2881648k(1248504k free), swap 5761396k(3620624k free)
+
+vm_info: Java HotSpot(TM) Client VM (20.4-b02) for windows-x86 JRE (1.6.0_29-b11), built on Oct  3 2011 01:01:08 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Sun Nov 27 01:14:00 2011
+elapsed time: 0 seconds
+
