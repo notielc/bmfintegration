@@ -20,7 +20,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyReplacer;
 
 public class ConsultaExtratoXmlConverter{
-
+	
 	public static String toXML(String transacaoId, Movimento movimento) throws Exception {
 
 		String returnXml = "";
@@ -28,9 +28,7 @@ public class ConsultaExtratoXmlConverter{
 			UserInfoPojo userInfo = criarUserInfo();
 
 			ConsultaExtratoRequest consultaExtrato = new ConsultaExtratoRequest();
-			// TODO: Onde será alimentado esse valor
 			consultaExtrato.setId(transacaoId);
-			// TODO: Onde será alimentado esse valor
 			consultaExtrato.setMovimento(movimento);
 		
 			ConsultaSisMsg sismsg = new ConsultaSisMsg();

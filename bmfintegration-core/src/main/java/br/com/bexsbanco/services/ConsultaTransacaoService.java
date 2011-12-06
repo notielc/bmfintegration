@@ -20,7 +20,7 @@ public class ConsultaTransacaoService {
 	public boolean consultaTransacao() {
 
 		Integer idLogger = NumberUtils.randomId();
-		
+
 		try {
 
 			Transacao transacao = new Transacao();
@@ -36,23 +36,26 @@ public class ConsultaTransacaoService {
 					.getValor("bexsbanco_consulta_transacao_movimento"));
 			transacao.setTipo(PropertiesUtil
 					.getValor("bexsbanco_consulta_transacao_tipo"));
-			
 
 			String xml = ConsultaTransacaoXmlConverter.toXML(NumberUtils
 					.randomId().toString(), transacao);
 
-			BexBancoLogger.loggerInfo("["+idLogger+"]XML para envio sem security:"+xml);
+			BexBancoLogger.loggerInfo("[" + idLogger
+					+ "]XML para envio sem security:" + xml);
 
-			String xmlSigned = DllUtils.assinaBmf("BBMFReqTransacaoSit", xml, idLogger);
-			
-			BexBancoLogger.loggerInfo("["+idLogger+"]XML para envio com security:"+xmlSigned);
+			String xmlSigned = DllUtils.assinaBmf("BBMFReqTransacaoSit", xml,
+					idLogger);
+
+			BexBancoLogger.loggerInfo("[" + idLogger
+					+ "]XML para envio com security:" + xmlSigned);
 
 			if (xmlSigned != null) {
 				String response = WebServiceUtils.send(
 						new String[] { UrlKeys.XML.getDesc() },
 						new String[] { xml });
-				
-				BexBancoLogger.loggerInfo("["+idLogger+"]XML de resposta:"+response);
+
+				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
+						+ response);
 
 				DocPojo responseObject = ConsultaTransacaoXmlConverter
 						.fromXML(response);
@@ -83,11 +86,50 @@ public class ConsultaTransacaoService {
 			}
 
 		} catch (Exception e) {
-			BexBancoLogger.loggerError("["+idLogger+"]Ocorreu algum erro na consulta de extrato :"+e.getMessage());
+			BexBancoLogger.loggerError("[" + idLogger
+					+ "]Ocorreu algum erro na consulta de extrato :"
+					+ e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
 		return true;
+
+	}
+
+	public String consultaTransacao(Transacao transacao) {
+		Integer idLogger = NumberUtils.randomId();
+		String xmlResult = "";
+		try {
+
+			String xml = ConsultaTransacaoXmlConverter.toXML(NumberUtils
+					.randomId().toString(), transacao);
+
+			BexBancoLogger.loggerInfo("[" + idLogger
+					+ "]XML para envio sem security:" + xml);
+
+			String xmlSigned = DllUtils.assinaBmf("BBMFReqTransacaoSit", xml,
+					idLogger);
+
+			BexBancoLogger.loggerInfo("[" + idLogger
+					+ "]XML para envio com security:" + xmlSigned);
+
+			if (xmlSigned != null) {
+				xmlResult = WebServiceUtils.send(
+						new String[] { UrlKeys.XML.getDesc() },
+						new String[] { xml });
+
+				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
+						+ xmlResult);
+			}
+
+		} catch (Exception e) {
+			BexBancoLogger.loggerError("[" + idLogger
+					+ "]Ocorreu algum erro na consulta de extrato :"
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return xmlResult;
 
 	}
 }

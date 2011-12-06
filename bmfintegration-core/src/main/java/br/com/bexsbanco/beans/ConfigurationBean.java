@@ -26,6 +26,29 @@ public class ConfigurationBean {
 	private String consultaExtratoMovimento;
 	private String consultaExtratoTipo;
 	
+	private String databaseUrl;
+	private String databaseDriver;
+	private String databaseUser;
+	private String databasePassword;
+	
+	
+	
+	public String getDatabaseUrl() {
+		return PropertiesUtil.getValor("bexsbanco_database_url");
+	}
+
+	public String getDatabaseDriver() {
+		return PropertiesUtil.getValor("bexsbanco_database_driver");
+	}
+
+	public String getDatabaseUser() {
+		return PropertiesUtil.getValor("bexsbanco_database_user");
+	}
+
+	public String getDatabasePassword() {
+		return PropertiesUtil.getValor("bexsbanco_database_password");
+	}
+
 	public String getBmfws() {
 		return PropertiesUtil.getValor("bexsbanco_bmfws");
 	}
@@ -55,7 +78,7 @@ public class ConfigurationBean {
 	}
 
 	public String getConsultaTransacaoMovimento() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_movimento");
+		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_dt_movimento");
 	}
 
 	public String getConsultaTransacaoTipo() {
@@ -67,23 +90,23 @@ public class ConfigurationBean {
 	}
 	
 	public String getConsultaExtratoAgencia() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_agencia");
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_agencia");
 	}
 
 	public String getConsultaExtratoConta() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_conta");
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_conta");
 	}
 
 	public String getConsultaExtratoDataLancamento() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_data_lancamento");
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_data_lancamento");
 	}
 
 	public String getConsultaExtratoMovimento() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_movimento");
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_movimento");
 	}
 
 	public String getConsultaExtratoTipo() {
-		return PropertiesUtil.getValor("bexsbanco_consulta_transacao_tipo");
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_tipo");
 	}
 
 	public static String getSchedulerStatus() {
