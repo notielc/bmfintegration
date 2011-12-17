@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.com.bexsbanco.logs.BexBancoLogger;
 import br.com.bexsbanco.pojos.consulta.lote.Erro;
 import br.com.bexsbanco.pojos.consulta.lote.LoteTransacao;
 import br.com.bexsbanco.pojos.consulta.transacao.Transacao;
@@ -58,8 +59,7 @@ public class LoteTransacaoDAO {
 			}
 
 		} catch (SQLException e) {
-			// TODO implementar logs
-			e.printStackTrace();
+			BexBancoLogger.loggerError("Erro ao salvar transacao:"+e.getMessage());
 		} finally {
 			ConnectionFactory.destroyConnection();
 		}
@@ -83,8 +83,7 @@ public class LoteTransacaoDAO {
 			st.close();
 
 		} catch (SQLException e) {
-			// TODO implementar logs
-			e.printStackTrace();
+			BexBancoLogger.loggerError("Erro ao recuperar o ID:"+e.getMessage());
 		} finally {
 			ConnectionFactory.destroyConnection();
 		}

@@ -9,6 +9,7 @@ import br.com.bexsbanco.converters.consulta.lote.xml.ConsultaTransacaoXmlConvert
 import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.consulta.lote.CodIdent;
 import br.com.bexsbanco.pojos.consulta.transacao.Transacao;
+import br.com.bexsbanco.util.DllUtils;
 import br.com.bexsbanco.util.PropertiesUtil;
 
 public class XmlConsultaTransacaoTest {
@@ -17,17 +18,19 @@ public class XmlConsultaTransacaoTest {
 	public void testConsultaRequest() {
 		try {
 			Transacao transacao = new Transacao();
-			transacao.setAgencia("agencia");
-			transacao.setConta("conta");
+			transacao.setAgencia("0001");
+			transacao.setConta("0000012663");
 			CodIdent codIdent = new CodIdent();
-			codIdent.setValue("codident");
+			codIdent.setValue("12");
 			transacao.setCodIdent(codIdent);
-			transacao.setMovimento("movimento");
-			transacao.setTipo("tipo");
+			transacao.setMovimento("20111215");
+			transacao.setTipo("CC");
 
 			String consultaTransacaoToXML = ConsultaTransacaoXmlConverter
-					.toXML("123", transacao);
-			System.out.println(consultaTransacaoToXML);
+					.toXML("000000000000001", transacao);
+			
+			String assinaBmf = DllUtils.assinaBmf("BBMFReqTransacaoSit", consultaTransacaoToXML, 123);
+			
 			Assert.assertNotNull(consultaTransacaoToXML);
 
 		} catch (Exception e) {

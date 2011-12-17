@@ -37,9 +37,9 @@ public class ConsultaLoteService {
 
 			if (xmlSigned != null) {
 
-				String response = WebServiceUtils.send(
-						new String[] { UrlKeys.XML.getDesc() },
-						new String[] { xml });
+				String response  = WebServiceUtils.send(
+						UrlKeys.XML.getDesc() ,
+						assinaBmf );
 				
 				BexBancoLogger.loggerInfo("["+idLogger+"]XML de resposta:"+response);
 

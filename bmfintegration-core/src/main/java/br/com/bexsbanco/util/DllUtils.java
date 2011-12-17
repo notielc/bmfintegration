@@ -19,11 +19,11 @@ public class DllUtils {
 					"<BBMFReqTransacaoSit id=\"000000000000001\">"+
 					"<BBMFSecurity>"+
 					"<BBMFTransacao>"+
-					"<AgDebtd>	"+
-					"<CtDebtd>	"+
-					"<TpCtDebtd>"+
-					"<CodIdent>	"+
-					"<DtMovto>"+
+					"<AgDebtd></AgDebtd>	"+
+					"<CtDebtd></CtDebtd>	"+
+					"<TpCtDebtd></TpCtDebtd>"+
+					"<CodIdent></CodIdent>	"+
+					"<DtMovto></DtMovto>"+
 					"</BBMFTransacao>"+		
 					"</BBMFReqTransacaoSit>"+
 					"</BMFSISMSG>"+
@@ -40,9 +40,13 @@ public class DllUtils {
 
 		BmfDll lib = (BmfDll) Native.loadLibrary("BBMFSecurity", BmfDll.class);
 
-		byte[] outXML = new byte[xmlSign.length() + 90];
+		String header = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+		
+		String xmlSignFinal = xmlSign;//header.concat(xmlSign);
+		
+		byte[] outXML = new byte[xmlSignFinal.length() + 90];
 
-		Integer bbmfSignExResult = lib.BBMFSign(xmlSign, tag,
+		Integer bbmfSignExResult = lib.BBMFSign(xmlSignFinal, tag,
 				outXML);
 		
 		String xmlSigned = null;
@@ -122,7 +126,7 @@ public class DllUtils {
 			xmlSigned = null;
 		}
 		
-		System.out.println("Resposta de XML:"+xmlSign);
+		System.out.println("Resposta de XML Assinado:"+xmlSigned);
 		
 		return xmlSigned;
 

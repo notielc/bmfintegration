@@ -1,48 +1,53 @@
 package br.com.bexsbanco.util;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.PostMethod;
+
+import br.com.bexsbanco.logs.BexBancoLogger;
 
 public class WebServiceUtils {
 
-	public static String send(String[] keys, String[] values) {
+	public static String send(String key, String value) {
 
 		StringBuffer line = new StringBuffer();
 		try {
-			// Construct data
-			StringBuffer data = new StringBuffer();
 
-			if (keys.length > 0) {
+			if (key.length() > 0) {
 
-				for (int i = 0; i < keys.length; i++) {
-					
-					data.append(URLEncoder.encode(keys[i], "UTF-8") + "="
-							+ URLEncoder.encode(values[i], "UTF-8"));
-					
-				}
+				HttpClient httpClient = new HttpClient();
+				PostMethod postMethod = new PostMethod(
+						PropertiesUtil.getValor("bexsbanco_bmfws"));
+				postMethod.addParameter(key, value);
+				BexBancoLogger.loggerInfo("Value for Post: "+value);
+				httpClient.executeMethod(postMethod);
+				InputStream is = postMethod.getResponseBodyAsStream();
+				BufferedReader rd = new BufferedReader(
+						new InputStreamReader(is));
 
-				// Send data
-				URL url = new URL(PropertiesUtil.getValor("bexsbanco_bmfws"));
-
-				URLConnection conn = url.openConnection();
-				conn.setDoOutput(true);
-				OutputStreamWriter wr = new OutputStreamWriter(
-						conn.getOutputStream());
-				wr.write(data.toString());
-				wr.flush();
-
-				// Get the response
-				BufferedReader rd = new BufferedReader(new InputStreamReader(
-						conn.getInputStream()));
+//				// Send data
+//				URL url = new URL(PropertiesUtil.getValor("bexsbanco_bmfws"));
+//
+//				URLConnection conn = url.openConnection();
+//				conn.setRequestProperty("Content-Type",
+//						"application/x-www-form-urlencoded;");
+//				conn.setDoOutput(true);
+//				OutputStreamWriter wr = new OutputStreamWriter(
+//						conn.getOutputStream());
+//				wr.write(data.toString());
+//				wr.flush();
+//
+//				// Get the response
+//				BufferedReader rd = new BufferedReader(new InputStreamReader(
+//						conn.getInputStream()));
 				String readLine;
 				while ((readLine = rd.readLine()) != null) {
 					line.append(readLine);
 				}
-				wr.close();
+//				wr.close();
 				rd.close();
 			}
 		} catch (Exception e) {

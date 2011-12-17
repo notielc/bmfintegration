@@ -1,15 +1,11 @@
 package br.com.bexsbanco.converters.consulta.lote.xml;
 
-import br.com.bexsbanco.converters.consulta.lote.ConsultaLoteConverter;
 import br.com.bexsbanco.converters.consulta.lote.ConsultaLoteResponseConverter;
 import br.com.bexsbanco.pojos.BcMsgPojo;
 import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.SisMsgPojo;
 import br.com.bexsbanco.pojos.UserInfoPojo;
-import br.com.bexsbanco.pojos.consulta.ConsultaSisMsg;
 import br.com.bexsbanco.pojos.consulta.lote.CodIdent;
-import br.com.bexsbanco.pojos.consulta.lote.ConsultaLoteRequest;
-import br.com.bexsbanco.pojos.consulta.lote.ConsultaLoteResponse;
 import br.com.bexsbanco.pojos.consulta.lote.Erro;
 import br.com.bexsbanco.pojos.consulta.lote.LoteTransacao;
 import br.com.bexsbanco.pojos.consulta.transacao.Transacao;
@@ -25,26 +21,26 @@ public class ConsultaLoteXmlConverter{
 		try {
 			UserInfoPojo userInfo = criarUserInfo();
 
-			ConsultaLoteRequest consultaStatusLote = new ConsultaLoteRequest();
-			// TODO: Onde será alimentado esse valor
-			consultaStatusLote.setIdReqTransacao(idReqTransacao);
-			// TODO: Onde será alimentado esse valor
-			consultaStatusLote.setId(loteId);
-
-			ConsultaSisMsg sismsg = new ConsultaSisMsg();
-			sismsg.setConsultaStatusLoteRequest(consultaStatusLote);
-
-			DocPojo requestObject = new DocPojo();
-			requestObject.setSisMsg(sismsg);
-			requestObject.getBcMasg().setUserInfo(userInfo);
-
-			XStream xstream = new XStream();
-			xstream.processAnnotations(new Class[] { DocPojo.class,
-					BcMsgPojo.class, UserInfoPojo.class,
-					ConsultaLoteRequest.class, ConsultaSisMsg.class });
-			xstream.registerConverter(new ConsultaLoteConverter());
-
-			returnXml = xstream.toXML(requestObject);
+//			ConsultaLoteRequest consultaStatusLote = new ConsultaLoteRequest();
+//			// TODO: Onde será alimentado esse valor
+//			consultaStatusLote.setIdReqTransacao(idReqTransacao);
+//			// TODO: Onde será alimentado esse valor
+//			consultaStatusLote.setId(loteId);
+//
+//			ConsultaSisMsg sismsg = new ConsultaSisMsg();
+//			sismsg.setConsultaStatusLoteRequest(consultaStatusLote);
+//
+//			DocPojo requestObject = new DocPojo();
+//			requestObject.setSisMsg(sismsg);
+//			requestObject.getBcMasg().setUserInfo(userInfo);
+//
+//			XStream xstream = new XStream();
+//			xstream.processAnnotations(new Class[] { DocPojo.class,
+//					BcMsgPojo.class, UserInfoPojo.class,
+//					ConsultaLoteRequest.class, ConsultaSisMsg.class });
+//			xstream.registerConverter(new ConsultaLoteConverter());
+//
+//			returnXml = xstream.toXML(requestObject);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,9 +64,9 @@ public class ConsultaLoteXmlConverter{
 			XStream xstream = new XStream();
 			xstream.processAnnotations(new Class[] { DocPojo.class,
 					BcMsgPojo.class, UserInfoPojo.class,
-					ConsultaLoteResponse.class, LoteTransacao.class,
+				LoteTransacao.class,
 					Transacao.class, CodIdent.class, Erro.class,
-					ConsultaSisMsg.class, SisMsgPojo.class });
+					 SisMsgPojo.class });
 			xstream.registerConverter(new ConsultaLoteResponseConverter());
 
 			fromXML = (DocPojo) xstream.fromXML(xml);

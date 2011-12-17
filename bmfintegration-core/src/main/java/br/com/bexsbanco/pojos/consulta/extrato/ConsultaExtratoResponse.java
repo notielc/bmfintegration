@@ -1,22 +1,25 @@
 package br.com.bexsbanco.pojos.consulta.extrato;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.util.List;
 
-@XStreamAlias("BBMFResConsMovtoConta")
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+@XStreamAlias("BBMResConsMovtoConta")
 public class ConsultaExtratoResponse {
 
 	@XStreamAlias("BBMFSecurity")
 	private String security;
 	@XStreamAlias("contabmf")
 	private ContaBmf contabmf;
-	@XStreamAlias("Movto")
-	private Movimento movimento;
+	@XStreamImplicit
+	private List<Movimento> movimento;
 
-	public Movimento getMovimento() {
+	public List<Movimento> getMovimento() {
 		return movimento;
 	}
 
-	public void setMovimento(Movimento movimento) {
+	public void setMovimento(List<Movimento> movimento) {
 		this.movimento = movimento;
 	}
 

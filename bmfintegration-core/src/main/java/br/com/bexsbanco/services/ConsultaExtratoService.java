@@ -34,8 +34,8 @@ public class ConsultaExtratoService {
 
 			if (assinaBmf != null) {
 				xmlResult = WebServiceUtils.send(
-						new String[] { UrlKeys.XML.getDesc() },
-						new String[] { xml });
+						UrlKeys.XML.getDesc() ,
+						assinaBmf );
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);
@@ -84,8 +84,8 @@ public class ConsultaExtratoService {
 
 			if (assinaBmf != null) {
 				xmlResult = WebServiceUtils.send(
-						new String[] { UrlKeys.XML.getDesc() },
-						new String[] { xml });
+						UrlKeys.XML.getDesc() ,
+						assinaBmf );
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);

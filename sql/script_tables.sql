@@ -15,6 +15,11 @@ operacao varchar(255),
 nome_requisicao varchar(255),
 error_id varchar(255),
 data varchar(255),
+origem varchar(255),
+user_id varchar(255),
+id_req varchar(255),
+error_number varchar(255),
+desc varchar(255),
 CONSTRAINT pk_error PRIMARY KEY (id)
 )
 
@@ -59,5 +64,6 @@ cod_cli varchar(255),
 tp_pessoa_invest varchar(255),
 cnpj_cpfinvest varchar(255),
 nom_rzsocInvest varchar(255),
+data varchar(255),
 CONSTRAINT pk_extrato PRIMARY KEY (id)
 )

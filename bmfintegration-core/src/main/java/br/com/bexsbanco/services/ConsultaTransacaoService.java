@@ -33,7 +33,7 @@ public class ConsultaTransacaoService {
 					.getValor("bexsbanco_consulta_transacao_cod_ident"));
 			transacao.setCodIdent(codIdent);
 			transacao.setMovimento(PropertiesUtil
-					.getValor("bexsbanco_consulta_transacao_movimento"));
+					.getValor("bexsbanco_consulta_transacao_dt_movimento"));
 			transacao.setTipo(PropertiesUtil
 					.getValor("bexsbanco_consulta_transacao_tipo"));
 
@@ -51,8 +51,8 @@ public class ConsultaTransacaoService {
 
 			if (xmlSigned != null) {
 				String response = WebServiceUtils.send(
-						new String[] { UrlKeys.XML.getDesc() },
-						new String[] { xml });
+						UrlKeys.XML.getDesc() ,
+						xmlSigned );
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ response);
@@ -115,8 +115,9 @@ public class ConsultaTransacaoService {
 
 			if (xmlSigned != null) {
 				xmlResult = WebServiceUtils.send(
-						new String[] { UrlKeys.XML.getDesc() },
-						new String[] { xml });
+						UrlKeys.XML.getDesc() ,
+						xmlSigned );
+
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);

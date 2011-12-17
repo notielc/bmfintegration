@@ -1,13 +1,10 @@
 package br.com.bexsbanco.converters.consulta.lote.xml;
 
-import br.com.bexsbanco.converters.consulta.lote.ConsultaLoteConverter;
 import br.com.bexsbanco.converters.consulta.lote.ConsultaLoteResponseConverter;
 import br.com.bexsbanco.pojos.BcMsgPojo;
 import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.SisMsgPojo;
 import br.com.bexsbanco.pojos.UserInfoPojo;
-import br.com.bexsbanco.pojos.consulta.ConsultaSisMsg;
-import br.com.bexsbanco.pojos.consulta.extrato.ConsultaExtratoRequest;
 import br.com.bexsbanco.pojos.consulta.extrato.ConsultaExtratoResponse;
 import br.com.bexsbanco.pojos.consulta.extrato.ContaBmf;
 import br.com.bexsbanco.pojos.consulta.extrato.Movimento;
@@ -27,25 +24,46 @@ public class ConsultaExtratoXmlConverter{
 		try {
 			UserInfoPojo userInfo = criarUserInfo();
 
-			ConsultaExtratoRequest consultaExtrato = new ConsultaExtratoRequest();
-			consultaExtrato.setId(transacaoId);
-			consultaExtrato.setMovimento(movimento);
-		
-			ConsultaSisMsg sismsg = new ConsultaSisMsg();
-			sismsg.setConsultaExtratoRequest(consultaExtrato);
-
-			DocPojo requestObject = new DocPojo();
-			requestObject.setSisMsg(sismsg);
-			requestObject.getBcMasg().setUserInfo(userInfo);
-
-			XStream xstream = new XStream(new DomDriver("UTF-8", new XmlFriendlyReplacer("__", "_")));  
-			xstream.processAnnotations(new Class[] { DocPojo.class,
-					BcMsgPojo.class, UserInfoPojo.class,
-					ConsultaExtratoRequest.class, ConsultaSisMsg.class,
-					Movimento.class, ContaBmf.class });
-			xstream.registerConverter(new ConsultaLoteConverter());
-
-			returnXml = xstream.toXML(requestObject);
+//			ConsultaExtratoRequest consultaExtrato = new ConsultaExtratoRequest();
+//			consultaExtrato.setId(transacaoId);
+//			consultaExtrato.setMovimento(movimento);
+//		
+//			ConsultaSisMsg sismsg = new ConsultaSisMsg();
+//			sismsg.setConsultaExtratoRequest(consultaExtrato);
+//
+//			DocPojo requestObject = new DocPojo();
+//			requestObject.setSisMsg(sismsg);
+//			requestObject.getBcMasg().setUserInfo(userInfo);
+//
+//			XStream xstream = new XStream(new DomDriver("ISO-8859-1", new XmlFriendlyReplacer("__", "_")));  
+//			xstream.processAnnotations(new Class[] { DocPojo.class,
+//					BcMsgPojo.class, UserInfoPojo.class,
+//					ConsultaExtratoRequest.class, ConsultaSisMsg.class,
+//					Movimento.class, ContaBmf.class });
+//			xstream.registerConverter(new ConsultaLoteConverter());
+//
+//			returnXml = xstream.toXML(requestObject);
+			
+			returnXml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" +
+					"<BMFDOC>"+
+					"<BMFBCMSG>"+
+					"<UserInfo>"+
+					"<UserID>"+userInfo.getUserId()+"</UserID>"+
+					"<Password>"+userInfo.getPassowrd()+"</Password>"+
+					"</UserInfo>"+
+					"</BMFBCMSG>"+
+					"<BMFSISMSG>"+
+					"<BBMFConsMovtoConta id=\"000000000000001\">"+
+					"<Movto>"+
+					"<AgeCtp>"+movimento.getAgencia()+"</AgeCtp>"+
+					"<CtaCtp>"+movimento.getConta()+"</CtaCtp>"+
+					"<TipoCtaCtp>"+movimento.getTipo()+"</TipoCtaCtp>"+
+					"<DtLanc>"+movimento.getDtLancamento()+"</DtLanc>"+
+					"<NumMovto>"+movimento.getNumMotivo()+"</NumMovto>"+ 
+					"</Movto>"+
+					"</BBMFConsMovtoConta>"+
+					"</BMFSISMSG>"+
+					"</BMFDOC>";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,8 +89,7 @@ public class ConsultaExtratoXmlConverter{
 					BcMsgPojo.class, UserInfoPojo.class,
 					ConsultaExtratoResponse.class, Movimento.class, 
 					CodIdent.class, Erro.class,
-					ConsultaSisMsg.class, SisMsgPojo.class,
-					ContaBmf.class});
+					ContaBmf.class, DocPojo.class, SisMsgPojo.class});
 			xstream.registerConverter(new ConsultaLoteResponseConverter());
 
 			fromXML = (DocPojo) xstream.fromXML(xml);

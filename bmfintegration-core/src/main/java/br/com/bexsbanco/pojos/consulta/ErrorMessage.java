@@ -13,6 +13,47 @@ public class ErrorMessage {
 	private String date;
 	@XStreamAlias("ErrorID")
 	private String errorId;
+	@XStreamAlias("Origem")
+	private String origem;
+	@XStreamAlias("UserID")
+	private String userId;
+	@XStreamAlias("IdReq")
+	private String IdReq;
+	@XStreamAlias("ErrorNumber")
+	private String errorNumber;
+	@XStreamAlias("Description")
+	private String description;
+		
+	public String getOrigem() {
+		return origem;
+	}
+	public void setOrigem(String origem) {
+		this.origem = origem;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getIdReq() {
+		return IdReq;
+	}
+	public void setIdReq(String idReq) {
+		IdReq = idReq;
+	}
+	public String getErrorNumber() {
+		return errorNumber;
+	}
+	public void setErrorNumber(String errorNumber) {
+		this.errorNumber = errorNumber;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getSecurity() {
 		return security;
 	}
