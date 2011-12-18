@@ -50,7 +50,7 @@ public class BmfScheduler {
 				.withIdentity("consultaTransacaoTrigger", "consultaTransacaoTrigger")
 				.startNow()
 				.withSchedule(
-						simpleSchedule().withIntervalInSeconds(
+						simpleSchedule().withIntervalInMinutes(
 								Integer.parseInt(PropertiesUtil
 										.getValor("bexsbanco_time_schedule")))
 								.repeatForever()).build();
@@ -69,7 +69,7 @@ public class BmfScheduler {
 				.withIdentity("consultaLoteTrigger", "consultaLoteTrigger")
 				.startNow()
 				.withSchedule(
-						simpleSchedule().withIntervalInSeconds(
+						simpleSchedule().withIntervalInMinutes(
 								Integer.parseInt(PropertiesUtil
 										.getValor("bexsbanco_time_schedule")))
 								.repeatForever()).build();
@@ -88,7 +88,7 @@ public class BmfScheduler {
 				.withIdentity("consultaExtratoTrigger", "consultaExtratoTrigger")
 				.startNow()
 				.withSchedule(
-						simpleSchedule().withIntervalInSeconds(
+						simpleSchedule().withIntervalInMinutes(
 								Integer.parseInt(PropertiesUtil
 										.getValor("bexsbanco_time_schedule")))
 								.repeatForever()).build();

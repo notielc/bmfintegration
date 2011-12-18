@@ -90,7 +90,7 @@ public class ConsultaExtratoXmlConverter{
 					ConsultaExtratoResponse.class, Movimento.class, 
 					CodIdent.class, Erro.class,
 					ContaBmf.class, DocPojo.class, SisMsgPojo.class});
-			xstream.registerConverter(new ConsultaLoteResponseConverter());
+			//xstream.registerConverter(new ConsultaLoteResponseConverter());
 
 			fromXML = (DocPojo) xstream.fromXML(xml);
 		} catch (Exception e) {

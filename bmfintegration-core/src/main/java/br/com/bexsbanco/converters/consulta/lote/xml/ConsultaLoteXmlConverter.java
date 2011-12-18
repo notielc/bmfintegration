@@ -5,6 +5,7 @@ import br.com.bexsbanco.pojos.BcMsgPojo;
 import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.SisMsgPojo;
 import br.com.bexsbanco.pojos.UserInfoPojo;
+import br.com.bexsbanco.pojos.consulta.ErrorMessage;
 import br.com.bexsbanco.pojos.consulta.lote.CodIdent;
 import br.com.bexsbanco.pojos.consulta.lote.Erro;
 import br.com.bexsbanco.pojos.consulta.lote.LoteTransacao;
@@ -64,10 +65,9 @@ public class ConsultaLoteXmlConverter{
 			XStream xstream = new XStream();
 			xstream.processAnnotations(new Class[] { DocPojo.class,
 					BcMsgPojo.class, UserInfoPojo.class,
-				LoteTransacao.class,
+					LoteTransacao.class, ErrorMessage.class,
 					Transacao.class, CodIdent.class, Erro.class,
-					 SisMsgPojo.class });
-			xstream.registerConverter(new ConsultaLoteResponseConverter());
+					SisMsgPojo.class });
 
 			fromXML = (DocPojo) xstream.fromXML(xml);
 		} catch (Exception e) {

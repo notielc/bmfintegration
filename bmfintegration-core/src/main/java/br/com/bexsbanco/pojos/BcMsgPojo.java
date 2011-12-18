@@ -2,6 +2,8 @@ package br.com.bexsbanco.pojos;
 
 import br.com.bexsbanco.pojos.consulta.ErrorMessage;
 import br.com.bexsbanco.pojos.consulta.extrato.ConsultaExtratoResponse;
+import br.com.bexsbanco.pojos.consulta.transacao.ConsultaTransacaoResponse;
+import br.com.bexsbanco.services.ConsultaTransacaoService;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -14,7 +16,18 @@ public class BcMsgPojo {
 	private ErrorMessage errorMessage;	
 	@XStreamAlias("BBMResConsMovtoConta")
 	private ConsultaExtratoResponse consultaExtratoResponse;
+	@XStreamAlias("BBMFResSitTransacao")
+	private ConsultaTransacaoResponse consultaTransacaoResponse;
 	
+	public ConsultaTransacaoResponse getConsultaTransacaoResponse() {
+		return consultaTransacaoResponse;
+	}
+
+	public void setConsultaTransacaoResponse(
+			ConsultaTransacaoResponse consultaTransacaoResponse) {
+		this.consultaTransacaoResponse = consultaTransacaoResponse;
+	}
+
 	public ConsultaExtratoResponse getConsultaExtratoResponse() {
 		return consultaExtratoResponse;
 	}

@@ -68,17 +68,42 @@ public class XmlConsultaTransacaoTest {
 
 	@Test
 	public void testConsultaResponseWithErrors() {
+		
 		try {
-			String response = "<BMFDOC>" + "	<BMFSISMSG>" + "		<ErrorMessage>"
-					+ "<BBMFSecurity>ASD6545ASDA6545AS7</BBMFSecurity>"
-					+ "<NameReq>123</NameReq>"
-					+ " <Date>Data Formato String</Date>"
-					+ "<ErrorID>234</ErrorID>" + "		</ErrorMessage>"
-					+ "	</BMFSISMSG>" + "</BMFDOC>";
+			
+			String responseErroSistema = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+
+			"<BMFDOC>" +
+			"<BMFSISMSG>" +
+			"<BMFBCMSG>" +
+			"<ErrorMessage>" +
+			"<BBMFSecurity>C9FF6E02218E1A2EFED74C2B748C183057451AB1AD03878334BF21D41AFD</BBMFSecurity>" +
+			"<NameReq>BBMFReqTransacaoSit</NameReq>" +
+			"<Date>20111218</Date>" +
+			"<ErrorID>19</ErrorID>" +
+			"</ErrorMessage>" +
+			"</BMFBCMSG>" +
+			"</BMFSISMSG>" +
+			"</BMFDOC>";
+			
+			String responseErroConsulta = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" +
+					"<BMFDOC>" +
+					"<BMFSISMSG>" +
+					"<ErrorMessage>" +
+					"<BBMFSecurity>32FFD6D4D8F5410A3E50E771D49252AEEB02775B7CA09F3696801441B6C9</BBMFSecurity>" +
+					"<NameReq>BBMFReqSitTransacao</NameReq>" +
+					"<Date>20111218 11:54:58</Date>" +
+					"<ErrorID>42</ErrorID>" +
+					"</ErrorMessage>" +
+					"</BMFSISMSG>" +
+					"</BMFDOC>";
+			
+			DocPojo erroSistema = ConsultaLoteXmlConverter.fromXML(responseErroSistema);
+			
+			DocPojo erroConsulta = ConsultaLoteXmlConverter.fromXML(responseErroConsulta);
 
-			DocPojo fromXML = ConsultaLoteXmlConverter.fromXML(response);
-
-			Assert.assertNotNull(fromXML);
+			Assert.assertNotNull(erroSistema);
+			Assert.assertNotNull(erroConsulta);
+			
 		} catch (Exception e) {
 			Assert.assertEquals(true, false);
 		}

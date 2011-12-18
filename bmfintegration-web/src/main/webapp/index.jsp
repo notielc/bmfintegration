@@ -46,7 +46,7 @@ body {
 	<tr>
 		<td>Url</td>
 		<td><input type="text" name="bexsbanco_bmfws"
-			value="<%=configBean.getBmfws()%>"></td>
+			value="<%=configBean.getBmfws()%>" width="300"></td>
 	</tr>
 	<tr>
 		<td>Usuario</td>
@@ -59,7 +59,7 @@ body {
 			value="<%=configBean.getPassword()%>"></td>
 	</tr>
 	<tr>
-		<td>Timer</td>
+		<td>Tempo para Execução (Minutos)</td>
 		<td><input type="text" name="bexsbanco_time_schedule"
 			value="<%=configBean.getBexsbancoTimeSchedule()%>"></td>
 	</tr>
@@ -68,7 +68,7 @@ body {
 	</tr>
 	<tr>
 		<td>Url</td>
-		<td><input type="text" name="bexsbanco_database_url"
+		<td><input type="text" name="bexsbanco_database_url" width="300"
 			value="<%=configBean.getDatabaseUrl()%>"></td>
 	</tr>
 	<tr>
@@ -107,7 +107,7 @@ body {
 			value="<%=configBean.getConsultaTransacaoCodIdent()%>"></td>
 	</tr>
 	<tr>
-		<td>Data Movimento</td>
+		<td>Data Movimento (Deixar em Branco para data atual)</td>
 		<td><input type="text"
 			name="bexsbanco_consulta_transacao_dt_movimento"
 			value="<%=configBean.getConsultaTransacaoMovimento()%>"></td>
@@ -131,7 +131,7 @@ body {
 			value="<%=configBean.getConsultaExtratoConta()%>"></td>
 	</tr>
 	<tr>
-		<td>Data Lancamento</td>
+		<td>Data Lancamento (Deixar em Branco para data atual)</td>
 		<td><input type="text"
 			name="bexsbanco_consulta_extrato_data_lancamento"
 			value="<%=configBean.getConsultaExtratoDataLancamento()%>"></td>

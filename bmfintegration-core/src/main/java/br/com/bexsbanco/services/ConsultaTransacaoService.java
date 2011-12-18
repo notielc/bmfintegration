@@ -1,5 +1,8 @@
 package br.com.bexsbanco.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import br.com.bexsbanco.converters.consulta.lote.xml.ConsultaTransacaoXmlConverter;
 import br.com.bexsbanco.dao.ErrorMessageDAO;
 import br.com.bexsbanco.dao.LoteTransacaoDAO;
@@ -7,8 +10,10 @@ import br.com.bexsbanco.enums.UrlKeys;
 import br.com.bexsbanco.logs.BexBancoLogger;
 import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.consulta.ConsultaSisMsg;
+import br.com.bexsbanco.pojos.consulta.ErrorMessage;
 import br.com.bexsbanco.pojos.consulta.lote.CodIdent;
 import br.com.bexsbanco.pojos.consulta.lote.LoteTransacao;
+import br.com.bexsbanco.pojos.consulta.transacao.ConsultaTransacaoResponse;
 import br.com.bexsbanco.pojos.consulta.transacao.Transacao;
 import br.com.bexsbanco.util.DllUtils;
 import br.com.bexsbanco.util.NumberUtils;
@@ -23,6 +28,10 @@ public class ConsultaTransacaoService {
 
 		try {
 
+			String dataAtual = new SimpleDateFormat("yyyyMMdd").format(new Date());
+			
+			String dataFormulario = PropertiesUtil.getValor("bexsbanco_consulta_transacao_dt_movimento");
+			
 			Transacao transacao = new Transacao();
 			transacao.setAgencia(PropertiesUtil
 					.getValor("bexsbanco_consulta_transacao_agencia"));
@@ -32,8 +41,7 @@ public class ConsultaTransacaoService {
 			codIdent.setValue(PropertiesUtil
 					.getValor("bexsbanco_consulta_transacao_cod_ident"));
 			transacao.setCodIdent(codIdent);
-			transacao.setMovimento(PropertiesUtil
-					.getValor("bexsbanco_consulta_transacao_dt_movimento"));
+			transacao.setMovimento(dataFormulario == null || dataFormulario.trim().equalsIgnoreCase("") ? dataAtual : dataFormulario);
 			transacao.setTipo(PropertiesUtil
 					.getValor("bexsbanco_consulta_transacao_tipo"));
 
@@ -50,9 +58,8 @@ public class ConsultaTransacaoService {
 					+ "]XML para envio com security:" + xmlSigned);
 
 			if (xmlSigned != null) {
-				String response = WebServiceUtils.send(
-						UrlKeys.XML.getDesc() ,
-						xmlSigned );
+				String response = WebServiceUtils.send(UrlKeys.XML.getDesc(),
+						xmlSigned);
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ response);
@@ -62,32 +69,46 @@ public class ConsultaTransacaoService {
 
 				LoteTransacaoDAO dao = new LoteTransacaoDAO();
 				ErrorMessageDAO errorMessageDAO = new ErrorMessageDAO();
-				if (responseObject != null) {
-					ConsultaSisMsg consultaTransacaoResponse = (ConsultaSisMsg) responseObject
-							.getSisMsg();
-					if (consultaTransacaoResponse != null
-							&& consultaTransacaoResponse
-									.getConsultaLoteReqResponse() != null) {
-						for (LoteTransacao loteTransacao : consultaTransacaoResponse
-								.getConsultaLoteReqResponse()
-								.getLoteTransacao()) {
+				if (responseObject != null
+						&& responseObject.getSisMsg() != null
+						&& responseObject.getSisMsg().getBcMasg() != null
+						&& responseObject.getSisMsg().getBcMasg()
+								.getConsultaTransacaoResponse() != null) {
 
-							dao.saveLoteTransacao(loteTransacao);
-						}
-					} else if (consultaTransacaoResponse != null
-							&& consultaTransacaoResponse
-									.getConsultaLoteReqErrorMessage() != null) {
-						errorMessageDAO.saveErrorMessage("ConsultaTransacao",
-								consultaTransacaoResponse
-										.getConsultaLoteReqErrorMessage());
+					ConsultaTransacaoResponse consultaTransacaoResponse = responseObject
+							.getSisMsg().getBcMasg()
+							.getConsultaTransacaoResponse();
+
+					for (LoteTransacao loteTransacao : consultaTransacaoResponse
+							.getLoteTransacao()) {
+
+						dao.saveLoteTransacao(loteTransacao);
 					}
+				} else if ((responseObject != null
+						&& responseObject.getSisMsg() != null
+						&& responseObject.getSisMsg().getBcMasg() != null 
+						&& responseObject.getSisMsg().getBcMasg().getErrorMessage() != null)
+						|| (responseObject != null
+								&& responseObject.getSisMsg() != null && responseObject
+								.getSisMsg().getErrorMessage() != null)) {
+
+					ErrorMessage errorMessage = responseObject.getSisMsg().getErrorMessage() != null 
+					? responseObject.getSisMsg().getErrorMessage() 
+					: responseObject.getSisMsg().getBcMasg().getErrorMessage();
+
+					errorMessageDAO.saveErrorMessage("ConsultaTransacao",
+							errorMessage);
+					BexBancoLogger
+							.loggerInfo("["
+									+ idLogger
+									+ "] BMF retornou um erro, porfavor verificar errorMessage");
 				}
 
 			}
 
 		} catch (Exception e) {
 			BexBancoLogger.loggerError("[" + idLogger
-					+ "]Ocorreu algum erro na consulta de extrato :"
+					+ "]Ocorreu algum erro na consulta de transacao :"
 					+ e.getMessage());
 			e.printStackTrace();
 			return false;
@@ -114,10 +135,8 @@ public class ConsultaTransacaoService {
 					+ "]XML para envio com security:" + xmlSigned);
 
 			if (xmlSigned != null) {
-				xmlResult = WebServiceUtils.send(
-						UrlKeys.XML.getDesc() ,
-						xmlSigned );
-
+				xmlResult = WebServiceUtils.send(UrlKeys.XML.getDesc(),
+						xmlSigned);
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);
@@ -129,7 +148,7 @@ public class ConsultaTransacaoService {
 					+ e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return xmlResult;
 
 	}

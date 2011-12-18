@@ -20,12 +20,13 @@ public class ExtratoTransacaoDAO {
 
 		if (contaBmf != null && movimentoList != null
 				&& movimentoList.size() > 0) {
-			int maxId = getMaxId();
 
 			try {
 				Connection connection = ConnectionFactory.createConnection();
 
 				for (Movimento movimento : movimentoList) {
+
+					int maxId = getMaxId();
 
 					String insertQuery = "insert into extrato(id,banco,agencia,conta,dt_saldo_ant,dt_saldo_atual,vlr_saldo,cod_ident,dt_lancamento,"
 							+ "num_movto,num_docto,cod_hist,desc_hist,vlr_lanc,tp_deb_cred,bco_ctp,age_ctp,cta_ctp,tipo_cta_ctp,cnpj_cpf_ctp_titular1,"

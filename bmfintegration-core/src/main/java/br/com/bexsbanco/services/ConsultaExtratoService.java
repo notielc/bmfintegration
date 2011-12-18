@@ -1,12 +1,16 @@
 package br.com.bexsbanco.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import br.com.bexsbanco.converters.consulta.lote.xml.ConsultaExtratoXmlConverter;
 import br.com.bexsbanco.dao.ErrorMessageDAO;
 import br.com.bexsbanco.dao.ExtratoTransacaoDAO;
 import br.com.bexsbanco.enums.UrlKeys;
 import br.com.bexsbanco.logs.BexBancoLogger;
 import br.com.bexsbanco.pojos.DocPojo;
-import br.com.bexsbanco.pojos.consulta.ConsultaSisMsg;
+import br.com.bexsbanco.pojos.consulta.ErrorMessage;
+import br.com.bexsbanco.pojos.consulta.extrato.ConsultaExtratoResponse;
 import br.com.bexsbanco.pojos.consulta.extrato.Movimento;
 import br.com.bexsbanco.util.DllUtils;
 import br.com.bexsbanco.util.NumberUtils;
@@ -33,9 +37,8 @@ public class ConsultaExtratoService {
 					+ "]XML para envio com security:" + assinaBmf);
 
 			if (assinaBmf != null) {
-				xmlResult = WebServiceUtils.send(
-						UrlKeys.XML.getDesc() ,
-						assinaBmf );
+				xmlResult = WebServiceUtils.send(UrlKeys.XML.getDesc(),
+						assinaBmf);
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);
@@ -47,7 +50,7 @@ public class ConsultaExtratoService {
 					+ e.getMessage());
 			return "Ocorreu algum erro na consulta";
 		}
-		
+
 		return xmlResult;
 
 	}
@@ -58,6 +61,12 @@ public class ConsultaExtratoService {
 		String xmlResult = "";
 		try {
 
+			String dataAtual = new SimpleDateFormat("yyyyMMdd")
+					.format(new Date());
+
+			String dataFormulario = PropertiesUtil
+					.getValor("bexsbanco_consulta_extrato_data_lancamento");
+
 			Movimento movimento = new Movimento();
 			movimento.setAgencia(PropertiesUtil
 					.getValor("bexsbanco_consulta_extrato_agencia"));
@@ -65,8 +74,8 @@ public class ConsultaExtratoService {
 					.getValor("bexsbanco_consulta_extrato_conta"));
 			movimento.setTipo(PropertiesUtil
 					.getValor("bexsbanco_consulta_extrato_tipo"));
-			movimento.setDtLancamento(PropertiesUtil
-					.getValor("bexsbanco_consulta_extrato_data_lancamento"));
+			movimento.setDtLancamento(dataFormulario == null || dataFormulario.trim().equalsIgnoreCase("") ? dataAtual
+					: dataFormulario);
 			movimento.setNumMotivo(PropertiesUtil
 					.getValor("bexsbanco_consulta_extrato_movimento"));
 
@@ -83,9 +92,8 @@ public class ConsultaExtratoService {
 					+ "]XML para envio com security:" + assinaBmf);
 
 			if (assinaBmf != null) {
-				xmlResult = WebServiceUtils.send(
-						UrlKeys.XML.getDesc() ,
-						assinaBmf );
+				xmlResult = WebServiceUtils.send(UrlKeys.XML.getDesc(),
+						assinaBmf);
 
 				BexBancoLogger.loggerInfo("[" + idLogger + "]XML de resposta:"
 						+ xmlResult);
@@ -95,31 +103,44 @@ public class ConsultaExtratoService {
 
 				ExtratoTransacaoDAO dao = new ExtratoTransacaoDAO();
 				ErrorMessageDAO errorMessageDAO = new ErrorMessageDAO();
-				if (responseObject != null) {
-					ConsultaSisMsg consultaSisMsg = (ConsultaSisMsg) responseObject
-							.getSisMsg();
-					if (consultaSisMsg != null
-							&& consultaSisMsg.getConsultaExtratoResponse() != null) {
+				if (responseObject != null
+						&& responseObject.getSisMsg() != null
+						&& responseObject.getSisMsg().getBcMasg() != null
+						&& responseObject.getSisMsg().getBcMasg()
+								.getConsultaExtratoResponse() != null) {
 
-						dao.saveLoteTransacao(consultaSisMsg
-								.getConsultaExtratoResponse().getContabmf(),
-								consultaSisMsg.getConsultaExtratoResponse()
-										.getMovimento());
-						BexBancoLogger.loggerInfo("[" + idLogger + "] Extrato salvo com sucesso");
-					} else if (consultaSisMsg != null
-							&& consultaSisMsg.getConsultaLoteReqErrorMessage() != null) {
+					ConsultaExtratoResponse consultaExtratoResponse = responseObject
+							.getSisMsg().getBcMasg()
+							.getConsultaExtratoResponse();
 
-						errorMessageDAO
-								.saveErrorMessage(
-										"ConsultaExtrato",
-										consultaSisMsg
-												.getConsultaLoteReqErrorMessage());
-						BexBancoLogger.loggerInfo("[" + idLogger + "] BMF retornou um erro, porfavor verificar errorMessage");
-					}
+					dao.saveLoteTransacao(
+							consultaExtratoResponse.getContabmf(),
+							consultaExtratoResponse.getMovimento());
+					BexBancoLogger.loggerInfo("[" + idLogger
+							+ "] Extrato salvo com sucesso");
+				} else if ((responseObject != null
+						&& responseObject.getSisMsg() != null
+						&& responseObject.getSisMsg().getBcMasg() != null 
+						&& responseObject.getSisMsg().getBcMasg().getErrorMessage() != null)
+						|| (responseObject != null
+								&& responseObject.getSisMsg() != null && responseObject
+								.getSisMsg().getErrorMessage() != null)) {
+
+					ErrorMessage errorMessage = responseObject.getSisMsg().getErrorMessage() != null 
+					? responseObject.getSisMsg().getErrorMessage() 
+					: responseObject.getSisMsg().getBcMasg().getErrorMessage();
+
+					errorMessageDAO.saveErrorMessage("ConsultaExtrato",
+							errorMessage);
+					BexBancoLogger
+							.loggerInfo("["
+									+ idLogger
+									+ "] BMF retornou um erro, porfavor verificar errorMessage");
 				}
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			BexBancoLogger.loggerError("[" + idLogger
 					+ "]Ocorreu algum erro na consulta de extrato :"
 					+ e.getMessage());
