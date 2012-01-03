@@ -1,7 +1,7 @@
 package br.com.bexsbanco.services;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import br.com.bexsbanco.converters.consulta.lote.xml.ConsultaExtratoXmlConverter;
 import br.com.bexsbanco.dao.ErrorMessageDAO;
@@ -57,15 +57,39 @@ public class ConsultaExtratoService {
 
 	public boolean consultaExtrato() {
 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
+		Calendar cal = Calendar.getInstance();	
+		
+		String dataAtual = dateFormat.format(cal.getTime());
+		
+		cal.add(Calendar.DATE, -1);
+
+		String dataAnterior = dateFormat.format(cal.getTime());
+		
+		String dataFormulario = PropertiesUtil.getValor("bexsbanco_consulta_extrato_data_lancamento");
+		
+		boolean result = true;
+		
+		if(dataFormulario == null || dataFormulario.trim().equalsIgnoreCase("")) {
+			result = consultaExtratoComData(dataAtual);
+			result = consultaExtratoComData(dataAnterior);
+		} else {
+			result = consultaExtratoComData(dataFormulario);			
+		}
+		
+		return result;
+
+	}
+
+	private boolean consultaExtratoComData(String data) {
+		
+		boolean result = true;
+		
 		Integer idLogger = NumberUtils.randomId();
 		String xmlResult = "";
 		try {
 
-			String dataAtual = new SimpleDateFormat("yyyyMMdd")
-					.format(new Date());
-
-			String dataFormulario = PropertiesUtil
-					.getValor("bexsbanco_consulta_extrato_data_lancamento");
 
 			Movimento movimento = new Movimento();
 			movimento.setAgencia(PropertiesUtil
@@ -74,8 +98,7 @@ public class ConsultaExtratoService {
 					.getValor("bexsbanco_consulta_extrato_conta"));
 			movimento.setTipo(PropertiesUtil
 					.getValor("bexsbanco_consulta_extrato_tipo"));
-			movimento.setDtLancamento(dataFormulario == null || dataFormulario.trim().equalsIgnoreCase("") ? dataAtual
-					: dataFormulario);
+			movimento.setDtLancamento(data);
 			movimento.setNumMotivo(PropertiesUtil
 					.getValor("bexsbanco_consulta_extrato_movimento"));
 
@@ -144,9 +167,9 @@ public class ConsultaExtratoService {
 			BexBancoLogger.loggerError("[" + idLogger
 					+ "]Ocorreu algum erro na consulta de extrato :"
 					+ e.getMessage());
-			return false;
+			
+			result = false;
 		}
-		return true;
-
+		return result;
 	}
 }
