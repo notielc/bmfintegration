@@ -147,6 +147,12 @@ body {
 		<td><input type="text" name="bexsbanco_consulta_extrato_tipo"
 			value="<%=configBean.getConsultaExtratoTipo()%>"></td>
 	</tr>
+	<tr>
+		<td>Dias Anteriores</td>
+		<td>
+			<input type="text" name="bexsbanco_consulta_extrato_dias_anteriores"
+			value="<%=configBean.getDiasAnteriores()%>"></td>
+	</tr>
 </table>
 </form>
 </body>

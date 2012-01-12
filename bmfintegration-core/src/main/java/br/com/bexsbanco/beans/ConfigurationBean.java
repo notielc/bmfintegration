@@ -26,6 +26,8 @@ public class ConfigurationBean {
 	private String consultaExtratoMovimento;
 	private String consultaExtratoTipo;
 	
+	private String consultaExtratoDiasAnteriores;
+	
 	private String databaseUrl;
 	private String databaseDriver;
 	private String databaseUser;
@@ -112,10 +114,16 @@ public class ConfigurationBean {
 	public static String getSchedulerStatus() {
 		return schedulerStatus == null ? "Not Running" : schedulerStatus;
 	}
+	
+	public String getDiasAnteriores() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_dias_anteriores");
+	}
 
 	public static void setSchedulerStatus(String schedulerStatus) {
 		ConfigurationBean.schedulerStatus = schedulerStatus;
 	}
+	
+	
 
 		
 	

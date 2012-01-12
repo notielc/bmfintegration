@@ -59,23 +59,43 @@ public class ConsultaExtratoService {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-		Calendar cal = Calendar.getInstance();	
-		
-		String dataAtual = dateFormat.format(cal.getTime());
-		
-		cal.add(Calendar.DATE, -1);
-
-		String dataAnterior = dateFormat.format(cal.getTime());
-		
-		String dataFormulario = PropertiesUtil.getValor("bexsbanco_consulta_extrato_data_lancamento");
-		
 		boolean result = true;
-		
-		if(dataFormulario == null || dataFormulario.trim().equalsIgnoreCase("")) {
-			result = consultaExtratoComData(dataAtual);
-			result = consultaExtratoComData(dataAnterior);
-		} else {
-			result = consultaExtratoComData(dataFormulario);			
+
+		try {
+
+			String diasAnteriores = PropertiesUtil.getValor("bexsbanco_consulta_extrato_dias_anteriores");
+
+			int qtdDias = Integer.parseInt(diasAnteriores);
+
+			Calendar cal = Calendar.getInstance();
+
+			String dataAtual = dateFormat.format(cal.getTime());
+
+			String dataFormulario = PropertiesUtil.getValor("bexsbanco_consulta_extrato_data_lancamento");
+
+			if (dataFormulario == null	|| dataFormulario.trim().equalsIgnoreCase("")) {
+
+				result = consultaExtratoComData(dataAtual);
+
+				while (qtdDias > 0) {
+					
+					cal = Calendar.getInstance();
+
+					cal.add(Calendar.DATE, -qtdDias);
+					String dataAnterior = dateFormat.format(cal.getTime());
+					result = consultaExtratoComData(dataAnterior);
+					
+					qtdDias--;
+				}
+				
+			} else {
+				
+				result = consultaExtratoComData(dataFormulario);
+				
+			}
+
+		} catch (Exception e) {
+			result = false;
 		}
 		
 		return result;
@@ -83,13 +103,12 @@ public class ConsultaExtratoService {
 	}
 
 	private boolean consultaExtratoComData(String data) {
-		
+
 		boolean result = true;
-		
+
 		Integer idLogger = NumberUtils.randomId();
 		String xmlResult = "";
 		try {
-
 
 			Movimento movimento = new Movimento();
 			movimento.setAgencia(PropertiesUtil
@@ -143,15 +162,16 @@ public class ConsultaExtratoService {
 							+ "] Extrato salvo com sucesso");
 				} else if ((responseObject != null
 						&& responseObject.getSisMsg() != null
-						&& responseObject.getSisMsg().getBcMasg() != null 
-						&& responseObject.getSisMsg().getBcMasg().getErrorMessage() != null)
+						&& responseObject.getSisMsg().getBcMasg() != null && responseObject
+						.getSisMsg().getBcMasg().getErrorMessage() != null)
 						|| (responseObject != null
 								&& responseObject.getSisMsg() != null && responseObject
 								.getSisMsg().getErrorMessage() != null)) {
 
-					ErrorMessage errorMessage = responseObject.getSisMsg().getErrorMessage() != null 
-					? responseObject.getSisMsg().getErrorMessage() 
-					: responseObject.getSisMsg().getBcMasg().getErrorMessage();
+					ErrorMessage errorMessage = responseObject.getSisMsg()
+							.getErrorMessage() != null ? responseObject
+							.getSisMsg().getErrorMessage() : responseObject
+							.getSisMsg().getBcMasg().getErrorMessage();
 
 					errorMessageDAO.saveErrorMessage("ConsultaExtrato",
 							errorMessage);
@@ -167,7 +187,7 @@ public class ConsultaExtratoService {
 			BexBancoLogger.loggerError("[" + idLogger
 					+ "]Ocorreu algum erro na consulta de extrato :"
 					+ e.getMessage());
-			
+
 			result = false;
 		}
 		return result;

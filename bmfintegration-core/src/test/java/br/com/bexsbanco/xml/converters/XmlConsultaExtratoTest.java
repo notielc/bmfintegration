@@ -238,10 +238,32 @@ public class XmlConsultaExtratoTest {
 						"</ErrorMessage>" +
 						"</BMFBCMSG>" +
 						"</BMFDOC>";
+			
+			String response3 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" +
+					"<BMFDOC>" +
+					"<BMFBCMSG>" +
+					"<ErrorMessage>" +
+					"<Origem>INFRA</Origem>" +
+					"<UserID>MDORES</UserID>" +
+					"<IdReq>000000000000001</IdReq>" +
+					"<NameReq>BBMFConsMovtoConta</NameReq>" +
+					"<Date>11/01/2012 23:58:29.270</Date>" +
+					"<ErrorID>52598917</ErrorID>" +
+					"<ErrorNumber>-70011</ErrorNumber>" +
+					"<Description>LOGIN BLOQUEADO</Description>" +
+					"</ErrorMessage>" +
+					"</BMFBCMSG>" +
+					"</BMFDOC>";
 
-			DocPojo fromXML = ConsultaExtratoXmlConverter.fromXML(response2);
-
+			DocPojo fromXML = ConsultaExtratoXmlConverter.fromXML(response);
 			Assert.assertNotNull(fromXML);
+			
+			DocPojo fromXML2 = ConsultaExtratoXmlConverter.fromXML(response2);
+			Assert.assertNotNull(fromXML2);
+			
+			DocPojo fromXML3 = ConsultaExtratoXmlConverter.fromXML(response3);
+			Assert.assertNotNull(fromXML3);
+			
 		} catch (Exception e) {
 			Assert.assertEquals(true, false);
 		}
