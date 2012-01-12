@@ -153,6 +153,16 @@ body {
 			<input type="text" name="bexsbanco_consulta_extrato_dias_anteriores"
 			value="<%=configBean.getDiasAnteriores()%>"></td>
 	</tr>
+	<tr>
+		<td>Período de Execução (Somente colocar horas, Ex: 1, 2, 3, 4, 5, 6, 7..., 21, 22, 23, 00)</td>
+		<td>Inicio
+			<input type="text" name="bexsbanco_consulta_periodo_inicio"
+			value="<%=configBean.getConsultaPeriodoInicio()%>">
+			Fim
+			<input type="text" name="bexsbanco_consulta_periodo_fim"
+			value="<%=configBean.getConsultaPeriodoFim()%>">
+		</td>
+	</tr>
 </table>
 </form>
 </body>

@@ -33,6 +33,16 @@ public class ConfigurationBean {
 	private String databaseUser;
 	private String databasePassword;
 	
+	private String consultaPeriodoInicio;
+	private String consultaPeriodoFim;
+	
+	public String getConsultaPeriodoInicio() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_periodo_inicio");
+	}
+	
+	public String getConsultaPeriodoFim() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_periodo_fim");
+	}
 	
 	
 	public String getDatabaseUrl() {

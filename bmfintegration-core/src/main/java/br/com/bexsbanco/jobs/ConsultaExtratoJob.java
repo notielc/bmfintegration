@@ -12,13 +12,23 @@ public class ConsultaExtratoJob implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		BexBancoLogger.loggerInfo("Iniciando consulta de extrato");
 
-		ConsultaExtratoService consultaExtratoService = new ConsultaExtratoService();
-		boolean resultadoConsulta = consultaExtratoService.consultaExtrato();
+		if (ValidaPeriodoDeExecucao.validate()) {
+			ConsultaExtratoService consultaExtratoService = new ConsultaExtratoService();
+			boolean resultadoConsulta = consultaExtratoService
+					.consultaExtrato();
 
-		if (resultadoConsulta) {
-			BexBancoLogger.loggerInfo("Consulta extrato realizada com sucesso");
+			if (resultadoConsulta) {
+				BexBancoLogger
+						.loggerInfo("Consulta extrato realizada com sucesso");
+			} else {
+				BexBancoLogger
+						.loggerError("Consulta extrato não foi realizada com sucesso ");
+			}
+
 		} else {
-			BexBancoLogger.loggerError("Consulta extrato não foi realizada com sucesso ");
+			BexBancoLogger
+			.loggerInfo("Fora do periodo de consulta ");
+
 		}
 	}
 

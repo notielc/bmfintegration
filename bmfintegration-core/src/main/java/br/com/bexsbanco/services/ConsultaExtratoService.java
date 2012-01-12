@@ -12,6 +12,7 @@ import br.com.bexsbanco.pojos.DocPojo;
 import br.com.bexsbanco.pojos.consulta.ErrorMessage;
 import br.com.bexsbanco.pojos.consulta.extrato.ConsultaExtratoResponse;
 import br.com.bexsbanco.pojos.consulta.extrato.Movimento;
+import br.com.bexsbanco.scheduler.BmfScheduler;
 import br.com.bexsbanco.util.DllUtils;
 import br.com.bexsbanco.util.NumberUtils;
 import br.com.bexsbanco.util.PropertiesUtil;
@@ -63,7 +64,8 @@ public class ConsultaExtratoService {
 
 		try {
 
-			String diasAnteriores = PropertiesUtil.getValor("bexsbanco_consulta_extrato_dias_anteriores");
+			String diasAnteriores = PropertiesUtil
+					.getValor("bexsbanco_consulta_extrato_dias_anteriores");
 
 			int qtdDias = Integer.parseInt(diasAnteriores);
 
@@ -71,33 +73,35 @@ public class ConsultaExtratoService {
 
 			String dataAtual = dateFormat.format(cal.getTime());
 
-			String dataFormulario = PropertiesUtil.getValor("bexsbanco_consulta_extrato_data_lancamento");
+			String dataFormulario = PropertiesUtil
+					.getValor("bexsbanco_consulta_extrato_data_lancamento");
 
-			if (dataFormulario == null	|| dataFormulario.trim().equalsIgnoreCase("")) {
+			if (dataFormulario == null
+					|| dataFormulario.trim().equalsIgnoreCase("")) {
 
 				result = consultaExtratoComData(dataAtual);
 
 				while (qtdDias > 0) {
-					
+
 					cal = Calendar.getInstance();
 
 					cal.add(Calendar.DATE, -qtdDias);
 					String dataAnterior = dateFormat.format(cal.getTime());
 					result = consultaExtratoComData(dataAnterior);
-					
+
 					qtdDias--;
 				}
-				
+
 			} else {
-				
+
 				result = consultaExtratoComData(dataFormulario);
-				
+
 			}
 
 		} catch (Exception e) {
 			result = false;
 		}
-		
+
 		return result;
 
 	}
@@ -164,21 +168,45 @@ public class ConsultaExtratoService {
 						&& responseObject.getSisMsg() != null
 						&& responseObject.getSisMsg().getBcMasg() != null && responseObject
 						.getSisMsg().getBcMasg().getErrorMessage() != null)
-						|| (responseObject != null
+						||
+
+						(responseObject != null
 								&& responseObject.getSisMsg() != null && responseObject
-								.getSisMsg().getErrorMessage() != null)) {
+								.getSisMsg().getErrorMessage() != null)
 
-					ErrorMessage errorMessage = responseObject.getSisMsg()
-							.getErrorMessage() != null ? responseObject
-							.getSisMsg().getErrorMessage() : responseObject
-							.getSisMsg().getBcMasg().getErrorMessage();
+						|| (responseObject != null
+								&& responseObject.getBcMasg() != null && responseObject
+								.getBcMasg().getErrorMessage() != null)) {
 
+					ErrorMessage errorMessage = null;
+					
+					if( responseObject.getSisMsg() != null ) {
+						
+						errorMessage = responseObject.getSisMsg().getErrorMessage() != null ? responseObject
+						.getSisMsg().getErrorMessage() : responseObject.getSisMsg().getBcMasg()
+										.getErrorMessage();
+					} else if( responseObject.getBcMasg() != null ){
+						
+						errorMessage = responseObject.getBcMasg().getErrorMessage() != null ? responseObject
+								.getBcMasg().getErrorMessage()
+								: null;
+					}
+					
 					errorMessageDAO.saveErrorMessage("ConsultaExtrato",
 							errorMessage);
 					BexBancoLogger
 							.loggerInfo("["
 									+ idLogger
 									+ "] BMF retornou um erro, porfavor verificar errorMessage");
+
+					if (errorMessage.getErrorNumber()
+							.equalsIgnoreCase("-70010")) {
+						BexBancoLogger
+								.loggerInfo("["
+										+ idLogger
+										+ "] Servico foi paradado devido ao erro grave :"+errorMessage.getDescription());
+						BmfScheduler.shutdownScheduler();
+					}
 				}
 			}
 
