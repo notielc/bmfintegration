@@ -27,7 +27,7 @@ public class BmfScheduler {
 
 			scheduler.start();
 
-			incluirConsultaTransacao();
+			//incluirConsultaTransacao();
 			//incluirConsultaLote();
 			incluirConsultaExtrato();
 
