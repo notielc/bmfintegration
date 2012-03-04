@@ -36,6 +36,15 @@ public class ConfigurationBean {
 	private String consultaPeriodoInicio;
 	private String consultaPeriodoFim;
 	
+	private String consultaTransacao;
+	private String consultaExtrato;
+	
+	private String consultaEmailHost;
+	private String consultaEmailLogin;
+	private String consultaEmailPassword;
+	private String consultaEmailRecebimento;
+	private String consultaEmailSsl;
+	
 	public String getConsultaPeriodoInicio() {
 		return PropertiesUtil.getValor("bexsbanco_consulta_periodo_inicio");
 	}
@@ -127,6 +136,58 @@ public class ConfigurationBean {
 	
 	public String getDiasAnteriores() {
 		return PropertiesUtil.getValor("bexsbanco_consulta_extrato_dias_anteriores");
+	}
+
+	public String getConsultaTransacaoSim() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_transacao") != null 
+				&& !PropertiesUtil.getValor("bexsbanco_consulta_transacao").equalsIgnoreCase("null")
+				&& PropertiesUtil.getValor("bexsbanco_consulta_transacao").equalsIgnoreCase("true") ? "checked" : "";
+	}
+	
+	public String getConsultaTransacaoNao() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_transacao") != null 
+				&& !PropertiesUtil.getValor("bexsbanco_consulta_transacao").equalsIgnoreCase("null")
+				&& PropertiesUtil.getValor("bexsbanco_consulta_transacao").equalsIgnoreCase("false") ? "checked" : "";
+	}
+
+	public String getConsultaExtratoSim() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato") != null 
+					&& !PropertiesUtil.getValor("bexsbanco_consulta_extrato").equalsIgnoreCase("null")
+					&& PropertiesUtil.getValor("bexsbanco_consulta_extrato").equalsIgnoreCase("true") ? "checked" : "";
+	}
+	
+	public String getConsultaExtratoNao() {
+		return PropertiesUtil.getValor("bexsbanco_consulta_extrato") != null 
+					&& !PropertiesUtil.getValor("bexsbanco_consulta_extrato").equalsIgnoreCase("null")
+					&& PropertiesUtil.getValor("bexsbanco_consulta_extrato").equalsIgnoreCase("false") ? "checked" : "";
+	}
+
+	public String getConsultaEmailHost() {
+		return PropertiesUtil.getValor("bexsbanco_email_host");
+	}
+
+	public String getConsultaEmailLogin() {
+		return PropertiesUtil.getValor("bexsbanco_email_login");
+	}
+
+	public String getConsultaEmailPassword() {
+		return PropertiesUtil.getValor("bexsbanco_email_senha");
+	}
+	
+	public String getConsultaEmailRecebimento() {
+		return PropertiesUtil.getValor("bexsbanco_email_recebimento");
+	}
+	
+	public String getConsultaEmailSslSim() {
+		return PropertiesUtil.getValor("bexsbanco_email_ssl") != null 
+					&& !PropertiesUtil.getValor("bexsbanco_email_ssl").equalsIgnoreCase("null")
+					&& PropertiesUtil.getValor("bexsbanco_email_ssl").equalsIgnoreCase("true") ? "checked" : "";
+	}
+	
+	public String getConsultaEmailSslNao() {
+		return PropertiesUtil.getValor("bexsbanco_email_ssl") != null 
+					&& !PropertiesUtil.getValor("bexsbanco_email_ssl").equalsIgnoreCase("null")
+					&& PropertiesUtil.getValor("bexsbanco_email_ssl").equalsIgnoreCase("false") ? "checked" : "";
 	}
 
 	public static void setSchedulerStatus(String schedulerStatus) {

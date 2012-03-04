@@ -14,6 +14,7 @@ import br.com.bexsbanco.beans.ConfigurationBean;
 import br.com.bexsbanco.jobs.ConsultaExtratoJob;
 import br.com.bexsbanco.jobs.ConsultaLoteJob;
 import br.com.bexsbanco.jobs.ConsultaTransacaoJob;
+import br.com.bexsbanco.logs.BexBancoLogger;
 import br.com.bexsbanco.util.PropertiesUtil;
 
 public class BmfScheduler {
@@ -27,27 +28,49 @@ public class BmfScheduler {
 
 			scheduler.start();
 
-			//incluirConsultaTransacao();
-			//incluirConsultaLote();
-			incluirConsultaExtrato();
+			if (PropertiesUtil.getValor("bexsbanco_consulta_transacao") != null
+					&& !PropertiesUtil.getValor("bexsbanco_consulta_transacao")
+							.isEmpty()
+					&& PropertiesUtil.getValor("bexsbanco_consulta_transacao").equalsIgnoreCase("true")) {
+
+				incluirConsultaTransacao();
+
+			}
+
+			if (PropertiesUtil.getValor("bexsbanco_consulta_extrato") != null
+					&& !PropertiesUtil.getValor("bexsbanco_consulta_extrato")
+							.isEmpty()
+					&& PropertiesUtil.getValor("bexsbanco_consulta_extrato").equalsIgnoreCase("true")) {
+
+				incluirConsultaExtrato();
+
+			}
+
+			/*
+			 * Foi comentando pois não será utilizado
+			 */
+			// incluirConsultaLote();
 
 			ConfigurationBean.setSchedulerStatus("Running");
 			status = true;
 
 		} catch (SchedulerException e) {
-			// TODO:implementar Logs
-			e.printStackTrace();
+			BexBancoLogger
+					.loggerError("Erro ao tentar iniciar o agendamento do extrato ou transacao: "
+							+ e.getMessage());
 		}
 	}
 
 	private static void incluirConsultaTransacao() throws SchedulerException {
 		// incluindo jobs
 		JobDetail consultaTransacaoJob = newJob(ConsultaTransacaoJob.class)
-				.withIdentity("consultaTransacaoJob", "consultaTransacaoJob").build();
+				.withIdentity("consultaTransacaoJob", "consultaTransacaoJob")
+				.build();
 
 		// configurando o valor do timer
 		Trigger trigger = newTrigger()
-				.withIdentity("consultaTransacaoTrigger", "consultaTransacaoTrigger")
+				.withIdentity("consultaTransacaoTrigger",
+						"consultaTransacaoTrigger")
 				.startNow()
 				.withSchedule(
 						simpleSchedule().withIntervalInMinutes(
@@ -58,11 +81,11 @@ public class BmfScheduler {
 		// adicionando servico no agendador
 		scheduler.scheduleJob(consultaTransacaoJob, trigger);
 	}
-	
+
 	private static void incluirConsultaLote() throws SchedulerException {
 		// incluindo jobs
-		JobDetail consultaLoteJob = newJob(ConsultaLoteJob.class)
-				.withIdentity("consultaLoteJob", "consultaLoteJob").build();
+		JobDetail consultaLoteJob = newJob(ConsultaLoteJob.class).withIdentity(
+				"consultaLoteJob", "consultaLoteJob").build();
 
 		// configurando o valor do timer
 		Trigger trigger = newTrigger()
@@ -77,15 +100,17 @@ public class BmfScheduler {
 		// adicionando servico no agendador
 		scheduler.scheduleJob(consultaLoteJob, trigger);
 	}
-	
+
 	private static void incluirConsultaExtrato() throws SchedulerException {
 		// incluindo jobs
 		JobDetail consultaExtratoJob = newJob(ConsultaExtratoJob.class)
-				.withIdentity("consultaExtratoJob", "consultaExtratoJob").build();
+				.withIdentity("consultaExtratoJob", "consultaExtratoJob")
+				.build();
 
 		// configurando o valor do timer
 		Trigger trigger = newTrigger()
-				.withIdentity("consultaExtratoTrigger", "consultaExtratoTrigger")
+				.withIdentity("consultaExtratoTrigger",
+						"consultaExtratoTrigger")
 				.startNow()
 				.withSchedule(
 						simpleSchedule().withIntervalInMinutes(

@@ -90,6 +90,15 @@ body {
 		<td colspan="2"><b>CONFIGURACAO CONSULTA TRANSACAO</b></td>
 	</tr>
 	<tr>
+		<td>Executar</td>
+		<td>
+			<input TYPE="radio" name="bexsbanco_consulta_transacao" 
+				value="true" <%=configBean.getConsultaTransacaoSim()%>> Sim
+			<input TYPE="radio" name="bexsbanco_consulta_transacao" 
+				value="false" <%=configBean.getConsultaTransacaoNao()%>> Não
+		</td>
+	</tr>
+	<tr>
 		<td>Agencia</td>
 		<td><input type="text"
 			name="bexsbanco_consulta_transacao_agencia"
@@ -119,6 +128,15 @@ body {
 	</tr>
 	<tr>
 		<td colspan="2"><b>CONFIGURACAO CONSULTA EXTRATO</b></td>
+	</tr>
+	<tr>
+		<td>Executar</td>
+		<td>
+			<input TYPE="radio" name="bexsbanco_consulta_extrato"
+				value="true" <%=configBean.getConsultaExtratoSim()%>> Sim
+			<input TYPE="radio" name="bexsbanco_consulta_extrato"
+				value="false" <%=configBean.getConsultaExtratoNao()%>> Não
+		</td>
 	</tr>
 	<tr>
 		<td>Agencia</td>
@@ -161,6 +179,39 @@ body {
 			Fim
 			<input type="text" name="bexsbanco_consulta_periodo_fim"
 			value="<%=configBean.getConsultaPeriodoFim()%>">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b>CONFIGURACAO ENVIO DE EMAIL</b></td>
+	</tr>
+	<tr>
+		<td>Host</td>
+		<td><input type="text" name="bexsbanco_email_host"
+			value="<%=configBean.getConsultaEmailHost()%>"></td>
+	</tr>
+	<tr>
+		<td>Login</td>
+		<td><input type="text" name="bexsbanco_email_login"
+			value="<%=configBean.getConsultaEmailLogin()%>"></td>
+	</tr>
+	<tr>
+		<td>Senha</td>
+		<td><input type="password" name="bexsbanco_email_senha"
+			value="<%=configBean.getConsultaEmailPassword()%>"></td>
+	</tr>
+	<tr>
+		<td>Email para recebimento</td>
+		<td><input type="text" name="bexsbanco_email_recebimento"
+			value="<%=configBean.getConsultaEmailRecebimento()%>"></td>
+	</tr>
+	<tr>
+		<td>SSL</td>
+		<td>
+			<input TYPE="radio" name="bexsbanco_email_ssl"
+				value="true" <%=configBean.getConsultaEmailSslSim()%>> Sim
+			<input TYPE="radio" name="bexsbanco_email_ssl"
+				value="false" <%=configBean.getConsultaEmailSslNao()%>> Não
+		</td>
 		</td>
 	</tr>
 </table>

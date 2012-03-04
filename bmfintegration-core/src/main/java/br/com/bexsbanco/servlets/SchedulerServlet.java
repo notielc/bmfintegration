@@ -84,6 +84,23 @@ public class SchedulerServlet extends HttpServlet{
 				fileSaida.println(req.getParameter("bexsbanco_consulta_periodo_inicio"));
 				fileSaida.print("bexsbanco_consulta_periodo_fim=");
 				fileSaida.println(req.getParameter("bexsbanco_consulta_periodo_fim"));
+				
+				fileSaida.print("bexsbanco_consulta_extrato=");
+				fileSaida.println(req.getParameter("bexsbanco_consulta_extrato"));
+				fileSaida.print("bexsbanco_consulta_transacao=");
+				fileSaida.println(req.getParameter("bexsbanco_consulta_transacao"));
+				
+				fileSaida.print("bexsbanco_email_host=");
+				fileSaida.println(req.getParameter("bexsbanco_email_host"));
+				fileSaida.print("bexsbanco_email_login=");
+				fileSaida.println(req.getParameter("bexsbanco_email_login"));
+				fileSaida.print("bexsbanco_email_senha=");
+				fileSaida.println(req.getParameter("bexsbanco_email_senha"));
+				fileSaida.print("bexsbanco_email_recebimento=");
+				fileSaida.println(req.getParameter("bexsbanco_email_recebimento"));
+				fileSaida.print("bexsbanco_email_ssl=");
+				fileSaida.println(req.getParameter("bexsbanco_email_ssl"));
+				
 
 				BmfScheduler.startScheduler();
 			

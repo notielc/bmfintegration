@@ -29,6 +29,9 @@
 		<url-pattern>/SimuladorTeste</url-pattern>
 	</servlet-mapping>
 
+	<listener>  
+        <listener-class>br.com.bexsbanco.servlets.AutoRunListener</listener-class>  
+    </listener> 
 
 	<display-name>Archetype Created Web Application</display-name>
 </web-app>
