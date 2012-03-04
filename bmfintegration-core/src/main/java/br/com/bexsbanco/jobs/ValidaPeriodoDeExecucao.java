@@ -18,13 +18,13 @@ public class ValidaPeriodoDeExecucao {
 			Calendar cal2 = Calendar.getInstance();
 			int inicio = Integer.parseInt(PropertiesUtil
 					.getValor("bexsbanco_consulta_periodo_inicio"));
-			cal2.set(Calendar.HOUR, inicio);
+			cal2.set(Calendar.HOUR_OF_DAY, inicio);
 			cal2.set(Calendar.MINUTE, 0);
 
 			Calendar cal3 = Calendar.getInstance();
 			int fim = Integer.parseInt(PropertiesUtil
 					.getValor("bexsbanco_consulta_periodo_fim"));
-			cal3.set(Calendar.HOUR, fim);
+			cal3.set(Calendar.HOUR_OF_DAY, fim);
 			cal3.set(Calendar.MINUTE, 0);
 
 			if (cal.after(cal2) && cal.before(cal3)) {
